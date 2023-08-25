@@ -1,19 +1,35 @@
-const sendPaymentRequestToApi = require('./4-payment').sendPaymentRequestToApi
-const Utils = require('./utils');
+/* eslint-disable jest/expect-expect */
+/* eslint-disable jest/no-hooks */
+/* eslint-disable jest/valid-expect */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable jest/prefer-expect-assertions */
+/* eslint-disable prefer-destructuring */
 const sinon = require('sinon');
-const chai = require("chai");
-const expect = chai.expect;
+const Utils = require('./utils');
+const sendPaymentRequestToApi = require('./4-payment');
 
-describe("#sendPaymentRequestToApi", function () {
-  it("should call utils.calculateNumber and console.log the correct message", function () {
-    const calcStub = sinon.stub(Utils, 'calculateNumber').returns(10);
+describe('sendPaymentRequestToApi', () => {
+  let stub;
+
+  beforeEach(() => {
+    stub = sinon.stub(Utils, 'calculateNumber').returns(10);
+  });
+
+  afterEach(() => {
+    stub.restore();
+  });
+
+  it('sendPaymentRequestToApi uses the calculateNumber method of Utils', () => {
     const spy = sinon.spy(console, 'log');
 
     sendPaymentRequestToApi(100, 20);
-    expect(calcStub.withArgs('SUM', 100, 20).calledOnce).to.be.true;
-    expect(spy.withArgs('The total is: 10').calledOnce).to.be.true;
+
+    sinon.assert.calledOnce(stub);
+    sinon.assert.calledWith(stub, 'SUM', 100, 20);
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'The total is: 10');
 
     spy.restore();
-    calcStub.restore();
   });
 });

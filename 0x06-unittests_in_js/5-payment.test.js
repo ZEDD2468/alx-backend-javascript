@@ -1,30 +1,44 @@
-const sendPaymentRequestToAPI = require('./5-payment').sendPaymentRequestToApi;
-const Utils = require('./utils');
+/* eslint-disable no-unused-expressions */
+/* eslint-disable jest/no-hooks */
+const { expect } = require('chai');
 const sinon = require('sinon');
-const chai = require("chai");
-const expect = chai.expect;
+const sendPaymentRequestToApi = require('./5-payment');
+const Utils = require('./utils');
 
-describe('#sendPaymentRequestToAPI', function () {
+describe('sendPaymentRequestToApi', () => {
+  let consoleSpy;
 
-  beforeEach(function () {
-    spyCalc = sinon.spy(Utils, 'calculateNumber');
-    spyConsole = sinon.spy(console, 'log');
+  beforeEach(() => {
+    consoleSpy = sinon.spy(console, 'log');
   });
 
-  afterEach(function () {
-    spyCalc.restore();
-    spyConsole.restore();
+  afterEach(() => {
+    consoleSpy.restore();
   });
 
-  it('should call sendPaymentRequestToAPI with 100 and 20', function () {
-    sendPaymentRequestToAPI(100, 20);
-    expect(spyCalc.withArgs('SUM', 100, 20).calledOnce).to.be.true;
-    expect(spyConsole.withArgs('The total is: 120').calledOnce).to.be.true;
+  // eslint-disable-next-line jest/prefer-expect-assertions
+  it('calls sendPaymentRequestToAPI with 100, and 20: and logs "The total is: 120" once', () => {
+    const totalAmount = 100;
+    const totalShipping = 20;
+    const expectedSum = Utils.calculateNumber('SUM', totalAmount, totalShipping);
+
+    sendPaymentRequestToApi(totalAmount, totalShipping);
+
+    expect(consoleSpy.calledOnce).to.be.true;
+    expect(consoleSpy.calledWith(`The total is: ${expectedSum}`)).to.be.true;
   });
 
-  it('should call sendPaymentRequestToAPI with 10 and 10', function () {
-    sendPaymentRequestToAPI(10, 10);
-    expect(spyCalc.withArgs('SUM', 10, 10).calledOnce).to.be.true;
-    expect(spyConsole.withArgs('The total is: 20').calledOnce).to.be.true;
+  // eslint-disable-next-line jest/prefer-expect-assertions
+  it('calls sendPaymentRequestToAPI with 10, and 10: and logs "The total is: 20" once', () => {
+    const totalAmount = 10;
+    const totalShipping = 10;
+    const expectedSum = Utils.calculateNumber('SUM', totalAmount, totalShipping);
+
+    sendPaymentRequestToApi(totalAmount, totalShipping);
+
+    // eslint-disable-next-line no-unused-expressions
+    expect(consoleSpy.calledOnce).to.be.true;
+    // eslint-disable-next-line no-unused-expressions
+    expect(consoleSpy.calledWith(`The total is: ${expectedSum}`)).to.be.true;
   });
 });
