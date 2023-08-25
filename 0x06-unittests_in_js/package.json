@@ -1,0 +1,20 @@
+{
+  "name": "unittest",
+  "version": "1.0.0",
+  "description": "How to Test Node.js Apps using Mocha, Chai, and SinonJS",
+  "main": "0-calcul.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "ITOK Steve",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "sinon": "^15.2.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "request": "^2.88.2"
+  }
+}
